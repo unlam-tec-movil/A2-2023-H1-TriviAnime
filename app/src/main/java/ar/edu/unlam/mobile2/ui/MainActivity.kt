@@ -40,7 +40,7 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "onCreate")
 
-        AppCenter.start(application, "{Your app secret here}",
+        AppCenter.start(application, "aee24ef7-c1c3-4d3d-8e4d-a24fb0f678f1",
                 Analytics::class.java, Crashes::class.java)
 
         setContent {
