@@ -188,9 +188,6 @@ class ConfiguracionActivity : ComponentActivity() {
         }
     }
 
-
-
-
     @Composable
     fun musicBar(){
 
@@ -211,12 +208,6 @@ class ConfiguracionActivity : ComponentActivity() {
             )
         }
     }
-
-
-
-
-
-
 
 }
 

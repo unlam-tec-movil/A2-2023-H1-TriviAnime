@@ -23,6 +23,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import ar.edu.unlam.mobile2.R
 import ar.edu.unlam.mobile2.databinding.ActivityMainBinding
 import ar.edu.unlam.mobile2.ui.ui.theme.OrangeLight
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +39,9 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "onCreate")
+
+        AppCenter.start(application, "{Your app secret here}",
+                Analytics::class.java, Crashes::class.java)
 
         setContent {
             Surface(
