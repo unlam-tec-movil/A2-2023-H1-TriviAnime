@@ -29,25 +29,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile2.R
-import ar.edu.unlam.mobile2.ui.ui.theme.Mobile2_ScaffoldingTheme
-import ar.edu.unlam.mobile2.ui.ui.theme.OrangeLight
+import ar.edu.unlam.mobile2.data.Partida
+import ar.edu.unlam.mobile2.data.PartidasRepositorio
+import ar.edu.unlam.mobile2.ui.ui.theme.TriviAnime_Theme
+import ar.edu.unlam.mobile2.ui.ui.theme.VioletLight
 import ar.edu.unlam.mobile2.ui.ui.theme.VioletDark
 
 class RecordActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            content()
+            Content()
         }
     }
 
     @Preview
     @Composable
-    private fun content() {
-        Mobile2_ScaffoldingTheme {
+    private fun Content() {
+        TriviAnime_Theme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
-                color = OrangeLight
+                color = VioletLight
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize()
@@ -95,7 +97,7 @@ class RecordActivity : ComponentActivity() {
             Text(text = "Puntaje", color = Color.White, fontSize = 30.sp)
         }
         Spacer(Modifier.size(10.dp))
-        MostrarRanking(ListaDeJuegosPrueba.ordenar() as MutableList<JuegoPrueba>)
+        MostrarRanking(PartidasRepositorio.ordenar() as MutableList<Partida>)
     }
 
     @Composable
@@ -104,7 +106,7 @@ class RecordActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun MostrarRanking(datos: MutableList<JuegoPrueba>) {
+    private fun MostrarRanking(datos: MutableList<Partida>) {
         LazyColumn (
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -113,7 +115,7 @@ class RecordActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun ListItemRow(item: JuegoPrueba) {
+    private fun ListItemRow(item: Partida) {
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
@@ -130,37 +132,3 @@ class RecordActivity : ComponentActivity() {
     }
 }
 
-class JuegoPrueba(
-    val jugador: String,
-    val puntaje: Int
-)
-
-object ListaDeJuegosPrueba {
-    val juegos = mutableListOf<JuegoPrueba>()
-
-    init {
-        agregar(JuegoPrueba("Jugador 1", 100))
-        agregar(JuegoPrueba("Jugador 2", 50))
-        agregar(JuegoPrueba("Jugador 3", 70))
-        agregar(JuegoPrueba("Jugador 4", 25))
-        agregar(JuegoPrueba("Jugador 5", 30))
-        agregar(JuegoPrueba("Jugador 6", 10))
-        agregar(JuegoPrueba("Jugador 7", 30))
-        agregar(JuegoPrueba("Jugador 8", 30))
-        agregar(JuegoPrueba("Jugador 9", 10))
-        agregar(JuegoPrueba("Jugador 10", 30))
-        agregar(JuegoPrueba("Jugador 11", 30))
-        agregar(JuegoPrueba("Jugador 12", 15))
-        agregar(JuegoPrueba("Jugador 13", 200))
-        agregar(JuegoPrueba("Jugador 14", 390))
-        agregar(JuegoPrueba("Jugador 15", 5))
-    }
-
-    fun agregar(juego: JuegoPrueba) {
-        juegos.add(juego)
-    }
-
-    fun ordenar(): List<JuegoPrueba> {
-        return juegos.sortedByDescending { it.puntaje }
-    }
-}
