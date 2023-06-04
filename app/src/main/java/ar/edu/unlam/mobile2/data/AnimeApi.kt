@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface AnimeApi {
 
-    @GET("/v2/anime?q=one&limit=4'")
+    @GET("/v4/anime/{id}/full")
     suspend fun getAnimes(): Response<List<AnimeApiModel>>
 }

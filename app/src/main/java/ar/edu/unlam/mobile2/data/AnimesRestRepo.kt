@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class AnimesRestRepo @Inject constructor(builder: Builder) : AnimesRepo {
     var retrofit: Retrofit = builder
-        .baseUrl("https://api.myanimelist.net/")
+        .baseUrl("https://api.jikan.moe")
         .build()
 
     override suspend fun getNewAnime(): String {
@@ -16,7 +16,7 @@ class AnimesRestRepo @Inject constructor(builder: Builder) : AnimesRepo {
         val animes = call.body()
 
         if (call.isSuccessful) {
-            return animes?.get(0)?.id ?: ""
+            return animes?.get(0)?.image_url ?: ""
         }
 
         return "error on call"
