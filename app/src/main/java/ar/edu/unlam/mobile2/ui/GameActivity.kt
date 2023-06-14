@@ -200,4 +200,11 @@ class GameActivity : ComponentActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
+
+    private fun endGame() {
+        val intent = Intent(this, EndGameActivity::class.java).apply {
+            putExtra("score", score)
+        }
+        startActivity(intent)
+    }
 }
