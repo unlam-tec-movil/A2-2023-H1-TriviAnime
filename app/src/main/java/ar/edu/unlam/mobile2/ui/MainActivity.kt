@@ -38,6 +38,7 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    var gamer = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "onCreate")
@@ -67,7 +68,8 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
                         fontWeight = FontWeight.Bold,
                         dropShadow = true
                     )
-                    TextFieldCustom("Nombre", "Ingresa tu nombre")
+                    val name = TextFieldCustom("Nombre", "Ingresa tu nombre")
+                    gamer = name.toString()
                     Spacer(modifier = Modifier.height(36.dp))
                     ButtonCustom(
                         text = "Jugar",
@@ -118,7 +120,9 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
                 || super.onSupportNavigateUp()
     }*/
     private fun irAJuego() {
-        val intent = Intent(this, GameActivity::class.java)
+        val intent = Intent(this, GameActivity::class.java).apply {
+            putExtra("gamer", gamer)
+        }
         startActivity(intent)
     }
     private fun irAConfiguracion() {

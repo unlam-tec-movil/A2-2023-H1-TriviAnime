@@ -23,17 +23,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -57,14 +55,17 @@ class GameActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
+        val bundle = intent.extras
+        val gamer: String? = bundle?.getString("gamer")
+
         setContent {
-            content()
+            Content(gamer!!)
         }
     }
 
-    @Preview
+    //@Preview
     @Composable
-    private fun content() {
+    private fun Content(gamer: String) {
         TriviAnime_Theme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -75,7 +76,8 @@ class GameActivity : ComponentActivity() {
                 )
                 {
                     TopBar()
-                    Game()
+                    Game(gamer)
+
                 }//Column
 
             }//Surface
@@ -121,7 +123,7 @@ class GameActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Game() {
+    fun Game(gamer: String) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,6 +132,7 @@ class GameActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
 
             ) {
+            Button(onClick = {endGame(gamer)}) {"Fin"}
             TextCustom(text = "¿Cual se emitió primero?", fontSize = 28.sp, border = true)
 
             ImageAnime(R.drawable.animeimage_cowboybebop, "Cowboy Bebop")
@@ -201,9 +204,10 @@ class GameActivity : ComponentActivity() {
         startActivity(intent)
     }
 
-    private fun endGame() {
+    private fun endGame(gamer: String) {
         val intent = Intent(this, EndGameActivity::class.java).apply {
-            putExtra("score", score)
+            putExtra("score", score.toString())
+            putExtra("gamer", gamer)
         }
         startActivity(intent)
     }

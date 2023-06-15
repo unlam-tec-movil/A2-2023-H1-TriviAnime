@@ -54,7 +54,7 @@ val tekoFamily = FontFamily(
 fun TextFieldCustom(
     label: String,
     placeholder: String
-) {
+): String {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         value = text,
@@ -90,6 +90,7 @@ fun TextFieldCustom(
             .width(240.dp)
             .height(64.dp)
     )
+    return text.text
 }
 
 @Composable

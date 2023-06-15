@@ -72,22 +72,25 @@ class EndGameActivity : ComponentActivity() {
                     .border(width = 4.dp, color = Color.Black),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Fin de la Partida")
-                Text("Jugador: $gamer")
-                Text("Puntaje: $score")
+                Column() {
+                    Text("Fin de la Partida")
+                    Text("Jugador: $gamer")
+                    Text("Puntaje: $score")
+                }
+
             }
-        }
-        Button(onClick = {
-            nuevaPartida()
-            finish()
-        }) {
-            Text(text = "Nueva Partida")
-        }
-        Button(onClick = {
-            irAMenu()
-            finish()
-        }) {
-            Text(text = "Menú Principal")
+            Button(onClick = {
+                nuevaPartida()
+                finish()
+            }) {
+                Text(text = "Nueva Partida")
+            }
+            Button(onClick = {
+                irAMenu()
+                finish()
+            }) {
+                Text(text = "Menú Principal")
+            }
         }
     }
 
