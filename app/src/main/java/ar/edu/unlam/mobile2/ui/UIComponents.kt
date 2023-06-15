@@ -134,7 +134,6 @@ fun TextCustom(
     fontFamily: FontFamily = latoFamily,
     fontWeight: FontWeight = FontWeight.Normal,
     dropShadow: Boolean = false,
-
     border: Boolean = false,
 ) {
     Box() {
