@@ -17,4 +17,5 @@
     <string name="anime_image2">Segundo Anime</string>
     <string name="title_activity_historial">HistorialActivity</string>
     <string name="title_activity_configuracion">ConfiguracionActivity</string>
+    <string name="title_activity_end_game">EndGameActivity</string>
 </resources>

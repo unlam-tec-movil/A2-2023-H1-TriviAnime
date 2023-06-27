@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile2.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -23,32 +24,35 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.ui.AppBarConfiguration
 import ar.edu.unlam.mobile2.R
+import ar.edu.unlam.mobile2.data.GameData
 import ar.edu.unlam.mobile2.databinding.ActivityMainBinding
 import ar.edu.unlam.mobile2.ui.ui.theme.HeartColor
 import ar.edu.unlam.mobile2.ui.ui.theme.TriviAnime_Theme
 import ar.edu.unlam.mobile2.ui.ui.theme.VioletDark
 import ar.edu.unlam.mobile2.ui.ui.theme.VioletLight
+import coil.compose.rememberAsyncImagePainter
 
 class GameActivity : ComponentActivity() {
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val model: GameViewModel by viewModels()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -57,14 +61,17 @@ class GameActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
+        val bundle = intent.extras
+        val gamer: String? = bundle?.getString("gamer")
+
         setContent {
-            content()
+            Content(gamer!!)
         }
     }
 
-    @Preview
+    //@Preview
     @Composable
-    private fun content() {
+    private fun Content(gamer: String) {
         TriviAnime_Theme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -75,7 +82,8 @@ class GameActivity : ComponentActivity() {
                 )
                 {
                     TopBar()
-                    Game()
+                    Game(gamer)
+
                 }//Column
 
             }//Surface
@@ -121,7 +129,17 @@ class GameActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Game() {
+    fun Game(gamer: String) {
+
+        val uiState by model.gameData.collectAsState()
+        var animeGameData = uiState
+
+        Log.i("ANIME_DATA", "Esto: $animeGameData")
+        val animeImageUrl1 = animeGameData.anime1imgUrl
+        val animeImageUrl2 = animeGameData.anime2imgUrl
+        val animeTitle = animeGameData.animeTitleWinner
+        val winnerOption = animeGameData.winnerTrigger
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,11 +148,14 @@ class GameActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
 
             ) {
-            TextCustom(text = "¿Cual se emitió primero?", fontSize = 28.sp, border = true)
+            //Button(onClick = {endGame(gamer)}) {"Fin"}
+            TextCustom(text = "Cual es $animeTitle ?", fontSize = 28.sp, border = true)
 
-            ImageAnime(R.drawable.animeimage_cowboybebop, "Cowboy Bebop")
+            ImageAnime(animeImageUrl1)
+            Button(onClick = { winCheck1(winnerOption) }) {"X"}
             ImageCustom(R.drawable.vs, 64.dp, 64.dp)
-            ImageAnime(R.drawable.animeimage_kimetsunoyaiba, "Demon Slayer")
+            ImageAnime(animeImageUrl2)
+            Button(onClick = { winCheck2(winnerOption) }) {"O"}
 
             Row(
                 modifier = Modifier.fillMaxSize(),
@@ -171,7 +192,7 @@ class GameActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ImageAnime(imageId: Int, name: String) {
+    fun ImageAnime(imgUrlStr: String) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -183,15 +204,11 @@ class GameActivity : ComponentActivity() {
             Image(
                 modifier = Modifier
                     .fillMaxWidth(),
-                painter = painterResource(id = imageId),
-                contentDescription = stringResource(id = imageId),
+                painter = rememberAsyncImagePainter(imgUrlStr),
+                contentDescription = "",
                 contentScale = ContentScale.Crop,
             )
-            TextCustom(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                text = name,
-                border = true
-            )
+
         }
 
     }
@@ -199,5 +216,27 @@ class GameActivity : ComponentActivity() {
     private fun irAInicio() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun endGame(gamer: String) {
+        val intent = Intent(this, EndGameActivity::class.java).apply {
+            putExtra("score", score.toString())
+            putExtra("gamer", gamer)
+        }
+        startActivity(intent)
+    }
+
+    private fun winCheck1(check: Int){
+        if(check == 2){
+            model.getRandomAnime()
+        }
+        else finish()
+    }
+
+    private fun winCheck2(check: Int){
+        if(check == 1){
+            model.getRandomAnime()
+        }
+        else finish()
     }
 }

@@ -12,36 +12,42 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile2_Scaffolding"
-        android:screenOrientation="portrait"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.EndGameActivity"
+            android:exported="false"
+            android:label="@string/title_activity_end_game"
+            android:theme="@style/Theme.Mobile2_Scaffolding" />
         <activity
             android:name=".ui.ConfigActivity"
             android:exported="false"
             android:label="@string/title_activity_configuracion"
-            android:theme="@style/Theme.Mobile2_Scaffolding"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Mobile2_Scaffolding" />
         <activity
             android:name=".ui.RecordActivity"
             android:exported="false"
             android:label="@string/title_activity_historial"
-            android:theme="@style/Theme.Mobile2_Scaffolding"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Mobile2_Scaffolding" />
         <activity
             android:name=".ui.GameActivity"
             android:exported="false"
             android:label="@string/title_activity_juego"
-            android:theme="@style/Theme.Mobile2_Scaffolding"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Mobile2_Scaffolding" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Mobile2_Scaffolding.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Mobile2_Scaffolding.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

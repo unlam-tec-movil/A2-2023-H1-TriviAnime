@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.ui.AppBarConfiguration
 import ar.edu.unlam.mobile2.R
+import ar.edu.unlam.mobile2.api.AnimeApi
 import ar.edu.unlam.mobile2.databinding.ActivityMainBinding
 import ar.edu.unlam.mobile2.ui.ui.theme.TriviAnime_Theme
 import ar.edu.unlam.mobile2.ui.ui.theme.VioletLight
@@ -33,16 +33,24 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
 
-    private val mainViewModel: MainViewModel by viewModels()
+    //private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    var gamer = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "onCreate")
         setContent {
             content()
         }
+        //newAnime()
+    }
+
+    private fun newAnime(){
+        val api = AnimeApi()
+        api.getNewAnime()
     }
     @Preview
     @Composable
@@ -66,7 +74,8 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
                         fontWeight = FontWeight.Bold,
                         dropShadow = true
                     )
-                    TextFieldCustom("Nombre", "Ingresa tu nombre")
+                    val name = TextFieldCustom("Nombre", "Ingresa tu nombre")
+                    gamer = name.toString()
                     Spacer(modifier = Modifier.height(36.dp))
                     ButtonCustom(
                         text = "Jugar",
@@ -117,7 +126,9 @@ class MainActivity : /*AppCompatActivity()*/ ComponentActivity() {
                 || super.onSupportNavigateUp()
     }*/
     private fun irAJuego() {
-        val intent = Intent(this, GameActivity::class.java)
+        val intent = Intent(this, GameActivity::class.java).apply {
+            putExtra("gamer", gamer)
+        }
         startActivity(intent)
     }
     private fun irAConfiguracion() {
